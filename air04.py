@@ -7,23 +7,27 @@
 
 
 # Afficher error et quitter le programme en cas de problèmes d’arguments.
-
 import sys
 
-def no_adjacent_identical_characters(string: str) -> str:
-    i: int = 0
-    n_s: str = ""
+def get_args() -> list:
+    return sys.argv
 
-    while i < len(string):
-        if string[i] != string[i - 1]:
-            n_s += string[i]
-        i+=1
-    
-    return n_s
+def is_valid_argv(args: list) -> bool:
+    if len(args) != 2:
+        return False
+    return True
 
-if len(sys.argv) != 2:
-    print("error")
-    sys.exit()
+def del_doublon(text: str):
+    nt = ""
 
-string: str = sys.argv[1]
-print(no_adjacent_identical_characters(string))
+    for indx in range(0,len(text)):
+        if text[indx-1] == text[indx]:
+            continue
+        else:
+            nt += text[indx]
+    print(nt)
+
+args = get_args()
+if is_valid_argv(args):
+    text = args[-1]
+    del_doublon(text)

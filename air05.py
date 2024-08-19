@@ -13,44 +13,41 @@
 
 
 # Afficher error et quitter le programme en cas de problèmes d’arguments.
-
 import sys
 
+def get_argv():
+    return sys.argv[1:]
 
-def concat(tab: list, sep: str) -> str:
-    i: int = 0
-    n_s: str = ""
+def is_valid_argv(args: list):
+    if len(args) < 2:
+        return False
+    return True
 
-    while i < len(tab):
-        n_s += str(tab[i])
-        
-        if i < len(tab) -1 :
-            n_s += sep
-        
-        i += 1 
-    
-    return n_s
+def get_symbole(args: str):
+    return args[0]
 
-def operation(tab: list, op: str) -> list:
-    sign: str = op[0]
-    i: int = 0
-    result: list = []
+def get_number_op(args: str):
+    return args[1:]
 
-    while i < len(tab):
-        if sign == "+":
-            result.append(int(tab[i]) + int(op[1:]))
-        elif sign == "-":
-            result.append(int(tab[i]) - int(op[1:]))
-        else:
-            return "error" # type: ignore
-        i += 1
+def operation(numbers: list, op: str, by: int):
+    if op == "+":
+        nl = [int(x)+by for x in numbers]
+    elif op == "-":
+        nl = [int(x)-by for x in numbers]
+    else:
+        return  "ERROR OPERATION"
+    return nl
 
-    return result
+def display_new_liste(numbers):
+    for i in numbers:
+        print(i, end=" ")
 
-if len(sys.argv) < 3:
-    print("error")
-    sys.exit()
-
-op: str = sys.argv[-1]
-tab: list = sys.argv[1:-1]
-print(concat(operation(tab, op), " "))
+args = get_argv()
+if is_valid_argv(args):
+    op = get_symbole(args[-1])
+    by = int(get_number_op(args[-1]))
+    nb_list = args[:-1]
+    numbers = operation(nb_list, op, by)
+    display_new_liste(numbers)
+else:
+    print('erroe')

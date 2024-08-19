@@ -17,39 +17,40 @@
 
 import sys
 
+def valid_arg(args: list) -> bool:
+    if len(args) > 2:
+        return False
+    return True
 
-def len(tab) -> int:
-    length: int = 0
-
-    try:
-        i: int = 0
-        while True:
-            _ = tab[i]
-            length += 1
-            i += 1
-    except IndexError:
-        pass
-    
-    return length
-
+def get_args(args: list):
+    if valid_arg(args):
+        return args[1]
+    return "Error"
 
 
 def split(string: str) -> list:
-    i: int = 0
-    tab: list = []
-    iterrator_string: int = 0
+    sep = [" ", "\n", "\t"]
+    split_list = []
+    text = ""
 
-    while i < len(string):
-        if ord(string[i]) == 32 or i == len(string) - 1:
-            tab.append(string[iterrator_string:i]) if i != len(string) -1 else tab.append(string[iterrator_string:i + 1])
-            iterrator_string = i + 1 
-        i += 1
-    
-    return tab
+    for c in string:
+        if c in sep:
+            split_list.append(text)
+            text = ""
+        else:
+            text += c
 
+    split_list.append(text)
 
-if len(sys.argv) != 2:
-    print("error")
-    sys.exit()
+    return split_list
 
-print(split(sys.argv[1]))
+def display(l: list) -> None:
+    for c in l:
+        print(c)
+
+my_args = get_args(sys.argv)
+if my_args != "Error":
+    split_list = split(my_args)
+    display(split_list)
+else:
+    print("Error d'arguments")

@@ -15,43 +15,30 @@
 # Afficher error et quitter le programme en cas de problèmes d’arguments.
 import sys
 
+def get_arguments() -> list:
+    return sys.argv
 
+def is_valid_args(args: list) -> bool:
+    if len(args) < 3 :
+        return False
+    return True
 
-def len(tab) -> int:
-    length: int = 0
+def join(list_txt: list, sep: str):
+    nt = ""
 
-    try:
-        i: int = 0
-        while True:
-            _ = tab[i]
-            length += 1
-            i += 1
-    except IndexError:
-        pass
-    
-    return length
+    for indx in range(0,len(list_txt)):
+        if indx != len(list_txt) -1:
+            nt += list_txt[indx] + sep
+        else:
+            nt += list_txt[indx]
 
+    return nt
 
+args = get_arguments()[1:]
+if is_valid_args(args):
+    sep = args[-1]
+    text = args[:-1]
+    print(join(text, sep))
+else:
+    print("Error")
 
-def concat(tab: list, sep: str) -> str:
-    i: int = 0
-    n_s: str = ""
-
-    while i < len(tab):
-        n_s += str(tab[i])
-        
-        if i < len(tab) -1 :
-            n_s += sep
-        
-        i += 1 
-    
-    return n_s
-
-
-if len(sys.argv) < 3:
-    print("error")
-    sys.exit()
-
-tab: list = sys.argv[1:-1]
-sep: str = sys.argv[-1]
-print(concat(tab, sep))

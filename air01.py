@@ -16,45 +16,40 @@
 
 import sys
 
-def len(tab) -> int:
-    length: int = 0
+def valid_args(args: list) -> bool:
+    if len(args) != 3:
+        return False
+    return True
 
-    try:
-        i: int = 0
-        while True:
-            _ = tab[i]
-            length += 1
-            i += 1
-    except IndexError:
-        pass
-    
-    return length
+def split(text:str, sep: str):
+    nt = ""
+    n = []
+    i = 0
 
+    while i <= len(text)-1:
+        if text[i: i+len(sep)] == sep:
+            n.append(nt)
+            nt = ""
+            i += len(sep)
 
+        else:
+            nt += text[i]
+            i +=1
+    n.append(nt)
+    return n
 
-def split_by_sep(string: str, sep: str) -> list:
-    i: int = 0
-    index_sep: int = 0
-    tab: list = []
+def display_liste(l: list) -> None:
+    for c in l:
+        print(c)
 
-    while i < len(string):
-        print(string[i:3])
-        if string[i: i+len(sep)] == sep:
-            tab.append(string[index_sep:i])
-            index_sep = i + len(sep)
-        i += 1
-    
-    tab.append(string[index_sep:])
-    
-    return tab
+args = sys.argv
 
 
+if not valid_args(args):
+    print("Error arguments")
+else:
+    sep = args[-1]
+    text = args[1]
+    n = split(text, sep)
+    display_liste(n)
 
-if len(sys.argv) != 3:
-    print("error")
-    sys.exit()
-
-string: str = sys.argv[1]
-sep: str = sys.argv[2]
-for s in split_by_sep(string, sep):
-    print(s)

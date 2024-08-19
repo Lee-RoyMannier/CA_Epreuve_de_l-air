@@ -10,30 +10,35 @@
 
 
 # Afficher error et quitter le programme en cas de problèmes d’arguments.
-
 import sys
 
-def intruder(tab: list) -> list:
-    value: dict = {}
-    i: int = 0
+def get_args() -> list:
+    return sys.argv
 
-    while i < len(tab):
-        if tab[i] not in value.keys():
-            value[tab[i]] = 1
+def is_valid_args(args: list) -> bool:
+    if len(args) < 3:
+        return False
+    return True
+
+def find_pair(args: list) -> list:
+    nb = {}
+
+    for n in args:
+        if not n in nb:
+            nb[n] = 1
         else:
-            value[tab[i]] += 1
-    
-        i += 1
+            nb[n] += 1
 
-    lmb = lambda x,y : x if y == 1 else "No intruder"
-    list_of_intruder: list =  list(map(lmb, value.keys(), value.values())) 
+    not_in_pair = list(filter(lambda x: nb[x] == 1, nb))
+    return not_in_pair
 
-    return list(filter(lambda x: x != "No intruder", list_of_intruder) )
+def display_not_pair(not_in_pair: list) -> None:
+    for c in not_in_pair:
+        print(c, end=" ")
 
-if len(sys.argv) < 2:
-    print("error")
-    sys.exit()
-
-tab: list = sys.argv[1:]
-for intru in intruder(tab):
-    print(intru, end=" ")
+args = get_args()[1:]
+if is_valid_args(args):
+    not_in_pair = find_pair(args)
+    display_not_pair(not_in_pair)
+else:
+    print("Error")

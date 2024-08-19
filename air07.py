@@ -16,40 +16,26 @@
 
 
 # Afficher error et quitter le programme en cas de problèmes d’arguments.
-
 import sys
 
+def get_argv():
+    return sys.argv[1:]
 
-def insert(tab: list, index: int, value: int) -> list:
-    i: int = 0
+def is_valid_argv(args: list):
+    if len(args) < 2:
+        return False
+    return True
 
-    while i < len(tab):
-        if i == index:
-            next = tab[i]
-            tab[i] = value
-            tab[i+1] = next
-            break
-        i += 1
+def insert(liste: list, index_element: int, element):
+    return liste[:index_element] + [element] + liste[index_element:]
+
+def sorted_insert(numbers: list, number: int):
+    for inx in range(0, len(numbers)):
+        if int(numbers[inx-1]) < number and int(numbers[inx]) > number:
+            numbers = insert(numbers, inx, number)
     
-    return tab
+    print(numbers)
 
-
-def sorted_insert(tab: list, n: int) -> list:
-    i: int = 0
-    
-    while i < len(tab):
-        if n < tab[i]:
-            insert(tab, i, n)
-            break
-        i += 1
-    else:
-        tab.append(n)
-
-    return tab
-    
-
-if len(sys.argv) < 3:
-    print("Error")
-    sys.exit(1)
-
-print(sorted_insert([int(sys.argv[i]) for i in range(1,len(sys.argv)-1)], int(sys.argv[-1])))
+args = get_argv()
+if is_valid_argv(args):
+    sorted_insert(args[:-1], int(args[-1]))
